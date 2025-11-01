@@ -1,5 +1,4 @@
-// Задача: Перегрузка конструкторов — InclusiveRange
-// Реализуйте класс InclusiveRange согласно README. Диапазон включительный.
+using System;
 
 namespace App.ConstructorOverloading.Task3_Range;
 
@@ -8,21 +7,40 @@ public class InclusiveRange
     public int Start { get; private set; }
     public int End { get; private set; }
 
-    // Конструктор (start, end)
     public InclusiveRange(int start, int end)
     {
-        throw new NotImplementedException();
+        if (start > end)
+            throw new ArgumentOutOfRangeException();
+
+        Start = start;
+        End = end;
     }
 
-    // Конструктор из строки "start..end"
     public InclusiveRange(string s)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(s))
+            throw new ArgumentException("Input string cannot be null or empty");
+
+        var parts = s.Split("..", StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length != 2)
+            throw new FormatException();
+
+        if (!int.TryParse(parts[0].Trim(), out int start))
+            throw new FormatException();
+
+        if (!int.TryParse(parts[1].Trim(), out int end))
+            throw new FormatException();
+
+        if (start > end)
+            throw new ArgumentOutOfRangeException();
+
+        Start = start;
+        End = end;
     }
 
-    // Конструктор из одного числа
     public InclusiveRange(int single)
     {
-        throw new NotImplementedException();
+        Start = single;
+        End = single;
     }
 }
